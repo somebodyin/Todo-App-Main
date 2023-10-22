@@ -2,26 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer base {
+  body {
+    color: #fff;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer components {
+  .checkbox {
+    @apply relative w-[1.6rem] h-[1.6rem] rounded-full appearance-none border-2 bg-darkDesaturatedBlue border-darkGrayishBlue  checked:border-0 checked:after:opacity-100 checked:bg-gradient transition duration-1000 shrink-0;
+  }
+
+  .checkbox::after {
+    @apply content-[''] absolute left-0 top-0 w-full h-full bg-no-repeat bg-center opacity-0;
+    background-image: url("../public/images/icon-check.svg");
+  }
 }

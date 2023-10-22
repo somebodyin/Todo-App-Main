@@ -1,8 +1,11 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import type { Metadata } from 'next';
+import { Josefin_Sans } from 'next/font/google';
+import './globals.css';
+import Image from 'next/image';
+import bgDesktopDark from "@/public/images/bg-desktop-dark.jpg";
+import TasksContextProvider from '@/context/tasks-context';
 
-const inter = Inter({ subsets: ['latin'] })
+const josefin_sans = Josefin_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,7 +19,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${josefin_sans.className} relative bg-veryDarkBlue`}>
+      <Image className="absolute left-0 top-0 -z-10" src={bgDesktopDark} alt="bg image"/>
+
+      <TasksContextProvider>
+        {children}
+      </TasksContextProvider>
+      
+      </body>
     </html>
   )
 }
