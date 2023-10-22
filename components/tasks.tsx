@@ -6,15 +6,10 @@ import FilterControl from './filter-control'
 import { useTasks, useTasksDispatch } from '@/context/tasks-context'
 
 export default function Tasks() {
-  const tasks = useTasks();
+  const data = useTasks();
   const dispatch = useTasksDispatch();
-  
-  const [ leftCount, setLeftCount ] = useState(0);
-
-  useEffect(() => {
-      const uncompletedTasks = tasks.filter(t => !t.done);
-      setLeftCount(uncompletedTasks.length);
-  }, [tasks])
+  const tasks = data.tasks;
+  const leftTodo = data.leftTodo;
   
 
   return (
@@ -22,13 +17,13 @@ export default function Tasks() {
         <ul>
             {
               tasks.map( t => (
-                <Task {...t} />
+                <Task key={t.id} {...t} />
               ) )
             }
         </ul>
 
         <div className="flex flex-row items-center justify-between px-6 bg-darkDesaturatedBlue h-[3rem] text-sm text-lessDarkGrayishBlue">
-            <div>{leftCount} items left</div>
+            <div>{leftTodo} items left</div>
 
             <FilterControl />
 

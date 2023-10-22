@@ -3,26 +3,44 @@
 import React, { createContext, useContext, useEffect, useReducer, useState } from 'react';
 import { Task } from '@/lib/type';
 import { initialTasks } from '@/lib/data';
+import { useImmer } from 'use-immer';
 
 type TasksContextProviderProps = {
     children: React.ReactNode;
 }
 
 type TaskAction = 
-    | { type: "add"; id: Task['id']; text: Task['text'] }
+    | { type: "add"; id: Task['id']; text: Task['text'], complete: Task['done'] }
     | { type: "change"; id: Task['id'], complete: Task['done'] }
     | { type: "delete" }
 
 type TasksDispatchType = (action: TaskAction) => void;
 
-export const TasksContext = createContext<Task[] | null>(null);
+const initialData = {
+    tasks: initialTasks,
+    leftTodo: initialTasks.filter(t => !t.done).length,
+}
+
+type dataType = (typeof initialData);
+
+export const TasksContext = createContext<dataType | null>(null);
 export const TasksDispatchContext = createContext<TasksDispatchType | null>(null);
+
+
 
 export default function TasksContextProvider({ children }: TasksContextProviderProps) {
     const [tasks, dispatch] = useReducer(
         tasksReducer,
-        initialTasks
+        initialData
     );
+
+    // const [ leftCount, setLeftCount ] = useState(0);
+
+    // useEffect(() => {
+    //     const uncompletedTasks = tasks.filter(t => !t.done);
+    //     setLeftCount(uncompletedTasks.length);
+    // }, [tasks])
+
 
     return (
         <TasksContext.Provider value={tasks}>
@@ -59,30 +77,39 @@ export function useTasksDispatch() {
 }
 
 
-function tasksReducer(tasks: Task[], action: TaskAction) {
+function tasksReducer(data: dataType, action: TaskAction) {
     switch (action.type) {
         case "add": {
-            return [ ...tasks, {
-                id: action.id,
-                text: action.text,
-                done: false,
-            }];
+            return {
+                tasks: [ ...data.tasks, {
+                    id: action.id,
+                    text: action.text,
+                    done: action.complete,
+                }],
+                leftTodo: data.leftTodo + Number(!action.complete)
+            };
         }
         
         case "change": {
-            return tasks.map( t => {
-                if (t.id === action.id) {
-                    return {
-                        ...t, done: action.complete
-                    }
-                } 
-                
-                return t;
-            });
+            return {
+                tasks: data.tasks.map( t => {
+                    if (t.id === action.id) {
+                        return {
+                            ...t, done: action.complete
+                        }
+                    } 
+                    
+                    return t;
+                }),
+                leftTodo: data.leftTodo + (action.complete ? -1 : 1)
+            };
         }
 
         case "delete": {
-            return tasks.filter( t => !t.done);
+            return {
+                ...data,
+                tasks: data.tasks.filter( t => !t.done)
+            };
         }
 
         default: {
