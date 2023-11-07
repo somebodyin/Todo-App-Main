@@ -1,16 +1,14 @@
 import Header from '@/components/header'
 import NewTask from '@/components/new-task'
-import Task from '@/components/task'
 import Tasks from '@/components/tasks'
-import Image from 'next/image'
 
 export default function Home() {
-  return (
-    <main className="mx-auto flex flex-col min-h-screen items-center justify-center bg-slate-500 w-[35rem] p-3 gap-3">
-      <Header />
-      <NewTask />
-      {/* <Task /> */}
-      <Tasks />
-    </main>
-  )
+	return (
+		<main className="flex flex-col min-h-screen items-center justify-start w-full px-5 md:mx-auto md:w-[35rem] md:p-[0.65rem] gap-[1.5rem] ">
+			<Header />
+			<NewTask />
+			<Tasks />
+			<p className="text-[0.85rem] leading-[1.25rem] mt-2 text-light-DarkGrayishBlue dark:text-dark-VeryDarkGrayishBlue font-semibold">Drag and drop to reorder list</p>
+		</main>
+	)
 }

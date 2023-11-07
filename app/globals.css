@@ -4,17 +4,45 @@
 
 @layer base {
   body {
-    color: #fff;
+	color: #fff;
   }
 }
 
 @layer components {
-  .checkbox {
-    @apply relative w-[1.6rem] h-[1.6rem] rounded-full appearance-none border-2 bg-darkDesaturatedBlue border-darkGrayishBlue  checked:border-0 checked:after:opacity-100 checked:bg-gradient transition duration-1000 shrink-0;
-  }
+	.checkbox {
+		@apply relative
+		border-[0.063rem]
+		w-[1.6rem]
+		h-[1.6rem]
+		rounded-full
+		appearance-none  
+		border-light-VeryLightGrayishBlue
+		dark:border-dark-VeryDarkGrayishBlue2
 
-  .checkbox::after {
-    @apply content-[''] absolute left-0 top-0 w-full h-full bg-no-repeat bg-center opacity-0;
-    background-image: url("../public/images/icon-check.svg");
-  }
+		checked:border-0 checked:after:opacity-100 checked:bg-gradient
+
+		shrink-0
+		cursor-pointer;
+	}
+
+	.checkbox:not(:checked):hover {
+		@apply border-transparent
+		bg-gradient-light
+		clip-padding-border
+		dark:bg-gradient-dark;
+  		
+	}
+
+	.checkbox::after {
+		@apply content-[''] absolute left-0 top-0 w-full h-full bg-no-repeat bg-center opacity-0;
+		background-image: url("../public/icon-check.svg");
+	}
+
+	.filterNav {
+		@apply flex flex-row items-center bg-white dark:bg-dark-VeryDarkDesaturatedBlue text-light-DarkGrayishBlue dark:text-dark-DarkGrayishBlue;
+	}
+
+	.shadowBlack {
+		@apply shadow-black/10 dark:shadow-black/50 shadow-2xl;
+	}
 }
