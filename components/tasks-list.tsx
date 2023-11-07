@@ -37,7 +37,7 @@ export default function TasksList({
 				atIndex: atIndex
 			});
 		},
-		[findTask]
+		[findTask, dispatch]
 	)
 
 	const moveTaskFilterAll = useCallback(
