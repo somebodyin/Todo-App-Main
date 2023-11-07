@@ -52,8 +52,10 @@ export default function Tasks() {
 	};
 	
 	useEffect(() => {
-		filterTasks(filterType);
-		computeLeftTasks();
+		if (Array.isArray(data.tasks) && data.tasks.length > 0) {
+			filterTasks(filterType);
+			computeLeftTasks();
+		}
 	}, [data.tasks]);
 
 
