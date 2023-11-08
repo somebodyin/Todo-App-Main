@@ -8,7 +8,12 @@ export async function fetchTasks({ filter }: FilterProp) {
 			throw new Error('Failed to fetch tasks');
 		}
 
-		return await response.json();
+		const tasks = await response.json();
+		if (Array.isArray(tasks) && tasks.length === 0) {
+			return await fetchTasks({ filter });
+		}
+
+		return tasks;
 	} catch (error) {
 		console.error("Error while fetching tasks: ", error);
 		return null;

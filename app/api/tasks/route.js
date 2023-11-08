@@ -25,7 +25,20 @@ export const POST = async (request) => {
     }
 }
 
+async function initiateNewbieTasks(accessToken) {
+    const newbieTasks = [
+        { title: 'Complete online JavaScript course', complete: true, author: accessToken },
+        { title: 'Jog around the park 3x', complete: false, author: accessToken },
+        { title: '10 minutes meditation', complete: false, author: accessToken },
+        { title: 'Read for 1 hour', complete: false, author: accessToken },
+        { title: 'Pick up groceries', complete: false, author: accessToken },
+        { title: 'Complete Todo App on Frontend Mentor', complete: false, author: accessToken }
+    ];
 
+    await prisma.task.createMany({
+        data: newbieTasks
+    });
+}
 
 export const GET = async (request) => {
     try {
@@ -39,18 +52,7 @@ export const GET = async (request) => {
         );
 
         if (tasks.length === 0) {
-            const newbieTasks = [
-                { title: 'Complete online JavaScript course', complete: true, author: accessToken },
-                { title: 'Jog around the park 3x', complete: false, author: accessToken },
-                { title: '10 minutes meditation', complete: false, author: accessToken },
-                { title: 'Read for 1 hour', complete: false, author: accessToken },
-                { title: 'Pick up groceries', complete: false, author: accessToken },
-                { title: 'Complete Todo App on Frontend Mentor', complete: false, author: accessToken }
-            ];
-
-            tasks = await prisma.task.createMany({
-                data: newbieTasks
-            });
+            await initiateNewbieTasks(accessToken);
         }
 
         return NextResponse.json(tasks);
