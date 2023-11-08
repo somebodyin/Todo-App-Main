@@ -39,7 +39,7 @@ export default function TasksContextProvider({ children }: TasksContextProviderP
 	);
 
 	useEffect(() => {
-		console.log("ex");
+
 		fetchTasks({ filter: "all" })
 			.then( (tasks) => {
 				if (tasks) {

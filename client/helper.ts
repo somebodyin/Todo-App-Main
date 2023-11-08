@@ -1,6 +1,6 @@
-import { FilterProp } from "@/lib/type";
+import { FilterProp, Task } from "@/lib/type";
 
-export async function fetchTasks({ filter }: FilterProp) {
+export async function fetchTasks({ filter }: FilterProp): Promise<Array<Task> | null> {
 	try {
 		const response = await fetch(`/api/tasks?filter=${filter}`);
 
